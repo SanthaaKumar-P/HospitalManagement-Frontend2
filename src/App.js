@@ -5,23 +5,28 @@ import Doctor from "./Doctor";
 import Patient from "./Patient";
 import Appointment from "./Appointment";
 import MedicalRecord from "./MedicalRecord";
+import HealthRisk from "./HealthRisk";
+import SymptomChecker from "./SymptomChecker";
+import Chatbot from "./Chatbot";
+import PatientTimeline from "./PatientTimeLine";
+import AnalyticsDashboard from "./AnalyticsDashBoard";
 
 export default function App() {
 
-  // Check token initially
+  // Check login token
   const [isLoggedIn, setIsLoggedIn] = useState(
     !!localStorage.getItem("token")
   );
 
   const [page, setPage] = useState("doctor");
 
-  // LOGOUT
+  // Logout handler
   const logout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
   };
 
-  // AFTER LOGIN
+  // If not logged in → show login page
   if (!isLoggedIn) {
     return <Login onLogin={() => setIsLoggedIn(true)} />;
   }
@@ -33,11 +38,18 @@ export default function App() {
       <h1>🏥 Hospital Management System</h1>
 
       {/* NAVIGATION */}
-      <nav>
+      <nav style={{ marginBottom: "20px" }}>
         <button onClick={() => setPage("doctor")}>Doctor</button>
         <button onClick={() => setPage("patient")}>Patient</button>
         <button onClick={() => setPage("appointment")}>Appointment</button>
         <button onClick={() => setPage("record")}>Medical Record</button>
+
+        <button onClick={() => setPage("health")}>AI Health Risk</button>
+        <button onClick={() => setPage("symptom")}>AI Symptom Checker</button>
+        <button onClick={() => setPage("chatbot")}>AI Chatbot</button>
+        <button onClick={() => setPage("timeline")}>Patient Timeline</button>
+        <button onClick={() => setPage("analytics")}>AI Analytics</button>
+
         <button onClick={logout}>Logout</button>
       </nav>
 
@@ -48,9 +60,11 @@ export default function App() {
       {page === "patient" && <Patient />}
       {page === "appointment" && <Appointment />}
       {page === "record" && <MedicalRecord />}
-
-
-
+      {page === "health" && <HealthRisk />}
+      {page === "symptom" && <SymptomChecker />}
+      {page === "chatbot" && <Chatbot />}
+      {page === "timeline" && <PatientTimeline />}
+      {page === "analytics" && <AnalyticsDashboard />}
       <style>{`
 /* ========== GLOBAL ========== */
 body {

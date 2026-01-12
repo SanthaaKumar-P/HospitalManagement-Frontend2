@@ -32,6 +32,14 @@ export default function Appointment() {
   const [appointments, setAppointments] = useState([]);
   const [editId, setEditId] = useState(null);
   const [msg, setMsg] = useState("");
+  const [suggestedTime, setSuggestedTime] = useState("");
+
+const autoSchedule = async () => {
+  const res = await fetch(
+    `http://localhost:8080/ai/scheduler/time?doctorLoad=4`
+  );
+  setSuggestedTime(await res.text());
+};
 
   /* ========= ADD / UPDATE ========= */
   const saveAppointment = async () => {
@@ -156,6 +164,8 @@ export default function Appointment() {
       <button onClick={getByStatus}>Search by Status</button>
 
       <hr />
+      <button onClick={autoSchedule}>AI Auto Schedule</button>
+      {suggestedTime && <p>Suggested Time: {suggestedTime}</p>}
 
       <ul>
         {appointments.map(a => (
